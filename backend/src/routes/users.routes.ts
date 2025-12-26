@@ -1,17 +1,13 @@
 import express from "express"
-import { Usercontroller } from "../controllers"
+import { UserController } from "../controllers"
 
 const usersRouter = express.Router()
 
-usersRouter.get('/me/urls', Usercontroller.getUserUrls)
+usersRouter.get('/me/urls', UserController.getUserUrls)
 
-usersRouter.get('/profile', (req, res) => {
+usersRouter.get('/profile', UserController.getUserProfile)
 
-})
-
-usersRouter.delete('/profile', (req, res) => {
-
-})
+usersRouter.delete('/profile', UserController.deleteUserProfile)
 
 
 export {usersRouter}

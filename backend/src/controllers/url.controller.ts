@@ -48,4 +48,13 @@ const removeUrl = async (req: Request, res: Response) => {
     }
 }
 
-export {shortenUrl, redirectUrl, removeUrl }
+const getUrlAnalytics = async (req: Request, res: Response) => {
+    try{
+        const analytics = await UrlService.getAnalytics(req.params.code!)
+        return analytics        
+    }catch (err: any) {
+        return res.status(400).json({message: err.message})
+    }
+}
+
+export {shortenUrl, redirectUrl, removeUrl, getUrlAnalytics }

@@ -1,8 +1,8 @@
-import { createUser, findUserByEmail, findUserById } from "../repositories/users.repository"
+import { UserRepository} from "../repositories"
 import bcrypt from "bcrypt"
 
  const getUserFromToken = async (userId: number) =>{
-    const user = await findUserById(userId)
+    const user = await UserRepository.findUserById(userId)
 
     if (!user) {
         return null
@@ -16,7 +16,7 @@ import bcrypt from "bcrypt"
     password: string
 ) => {
 
-    const user = await findUserByEmail(email)
+    const user = await UserRepository.findUserByEmail(email)
 
     if (!user) {
         throw new Error("Invalid email or password")
@@ -39,7 +39,7 @@ const signupService = async (
     password: string
 ) => {
 
-    const existingUser = await findUserByEmail(email)
+    const existingUser = await UserRepository.findUserByEmail(email)
 
     if (existingUser) {
         throw new Error("User already exists")
@@ -47,7 +47,7 @@ const signupService = async (
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const user = await createUser({
+    const user = await UserRepository.createUser({
         firstName,
         lastName,
         email,

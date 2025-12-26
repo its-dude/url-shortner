@@ -1,6 +1,6 @@
 import { prisma } from "../lib/prisma";
 
-export const createUser = async (data:{
+export const createUser =  (data:{
     firstName: string,
     lastName: string,
     email: string,
@@ -10,14 +10,20 @@ export const createUser = async (data:{
     return prisma.user.create({data});
 }
 
-export const findUserByEmail = async (email:string) => {
+export const findUserByEmail =  (email:string) => {
     return prisma.user.findUnique({
         where: {email}
     })
 }
 
-export const findUserById = async (id: number) => {
+export const findUserById =  (id: number) => {
     return prisma.user.findUnique({
         where: {id},
+    })
+}
+
+export const deleteUserById = (id: number) => {
+    return prisma.user.delete({
+        where: {id}
     })
 }

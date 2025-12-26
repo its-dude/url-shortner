@@ -1,13 +1,13 @@
 import { generateShortCode } from "../utils/shortcode.utils"
 import { normalizeAndValidateUrl } from "../utils/url.utils"
-import { createUrl, findUrlByCode, findUrlsByUserId, deleteUrlByCode} from "../repositories/urls.repository"
+import { UrlRepository} from "../repositories"
 
 const generateShortUrl =  ( {originalUrl, userId}: {originalUrl:string, userId: number} ) => {
     const validateUrl = normalizeAndValidateUrl( originalUrl )
     
     const code =  generateShortCode()
 
-    return createUrl({
+    return UrlRepository.createUrl({
             originalUrl: validateUrl,
             userId,
             code
@@ -15,7 +15,7 @@ const generateShortUrl =  ( {originalUrl, userId}: {originalUrl:string, userId: 
 }
 
 const resolveShortCode = async ( code: string ) => {
-    const url = await findUrlByCode(code)
+    const url = await UrlRepository.findUrlByCode(code)
 
     if ( !url ) {
         throw new Error("Short code not found")
@@ -25,16 +25,26 @@ const resolveShortCode = async ( code: string ) => {
 }
 
 const getUserUrls =  ( userId: number ) => {
-    return findUrlsByUserId( userId )
+    return UrlRepository.findUrlsByUserId( userId )
+}
+
+const getAnalytics = async ( code: string ) => {
+    const url = await UrlRepository.findUrlByCode( code )
+
+    if ( !url ) {
+       throw new Error("Url doesn't exist")
+    }
+
+    return UrlRepository.findUrlAnalytics( url.id)
 }
 
 const deleteUrl = async ( code: string ) => {
   try {
-    return await deleteUrlByCode( code );
+    return await UrlRepository.deleteUrlByCode( code );
   } catch ( err: any ) {
     throw new Error("Url not found");
   }
     
 }
-export {generateShortUrl, resolveShortCode, getUserUrls, deleteUrl}
+export {generateShortUrl, resolveShortCode, getUserUrls, getAnalytics, deleteUrl}
  

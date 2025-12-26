@@ -7,11 +7,9 @@ urlsRouter.post('/shorten', UrlController.shortenUrl)
 
 urlsRouter.get('/:code', UrlController.redirectUrl)
 
-urlsRouter.get('/:code/analytics', (req, res) => {
-
-})
-
 urlsRouter.delete('/:code', UrlController.removeUrl)
+
+urlsRouter.get('/:code/analytics', UrlController.getUrlAnalytics)
 
 
 export {urlsRouter}
