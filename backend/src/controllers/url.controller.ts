@@ -12,8 +12,8 @@ const shortenUrl = async (req: Request<{}, {}, ShortenUrlBody>, res: Response) =
         if ( !originalUrl ) {
             return  res.status(400).json({ message: "original url is required" })
         }
-
-        const shortUrl = await UrlService.generateShortUrl({originalUrl, userId: req.user.id});
+        
+        const shortUrl = await UrlService.generateShortUrl({originalUrl, userId: (req.user!).id});
 
         return res.status(201).json({
             shortUrl: shortUrl.code

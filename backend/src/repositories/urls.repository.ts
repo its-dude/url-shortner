@@ -8,7 +8,7 @@ const createUrl =  (data: {
     return prisma.url.create({data})
 }
 
-const findUrlByCode =  ( code: string) : Promise<{ originalUrl: string, code: string, userId: number } | null> => {
+const findUrlByCode =  ( code: string) : Promise<{id: number, originalUrl: string, code: string, userId: number } | null> => {
     return prisma.url.findUnique({
         where: {code},
         select: {

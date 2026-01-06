@@ -35,7 +35,7 @@ const getAnalytics = async ( code: string ) => {
        throw new Error("Url doesn't exist")
     }
 
-    return UrlRepository.findUrlAnalytics( url.id)
+    return UrlRepository.findUrlAnalytics( url.id )
 }
 
 const deleteUrl = async ( code: string ) => {

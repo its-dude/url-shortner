@@ -3,7 +3,7 @@ import { UrlService, UserService } from "../services"
 
 const getUserUrls =  (req: Request, res: Response) => {
     try{
-        const urls = UrlService.getUserUrls(req.user.id)
+        const urls = UrlService.getUserUrls((req.user!).id)
         return res.json({urls})
     }catch (err: any) {
         return res.status(400).json({message: err.message})
@@ -12,7 +12,7 @@ const getUserUrls =  (req: Request, res: Response) => {
 
 const getUserProfile = async (req: Request, res: Response) => {
     try{
-        const user = await  UserService.getUserProfile(req.user.id)
+        const user = await  UserService.getUserProfile((req.user!).id)
         
         res.json({
             user: {
@@ -29,7 +29,7 @@ const getUserProfile = async (req: Request, res: Response) => {
 
 const deleteUserProfile = async (req: Request, res: Response) => {
     try{
-        const deletedUser = await UserService.deleteUser(req.user.id)
+        const deletedUser = await UserService.deleteUser((req.user!).id)
 
         res.json({
             user: {
