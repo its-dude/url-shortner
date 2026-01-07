@@ -1,13 +1,14 @@
 import express from "express"
 import { UserController } from "../controllers"
+import { userAuth } from "../middlewares/auth.middleware"
 
 const usersRouter = express.Router()
 
-usersRouter.get('/me/urls', UserController.getUserUrls)
+usersRouter.get('/me/urls',userAuth, UserController.getUserUrls)
 
-usersRouter.get('/profile', UserController.getUserProfile)
+usersRouter.get('/profile',userAuth , UserController.getUserProfile)
 
-usersRouter.delete('/profile', UserController.deleteUserProfile)
+usersRouter.delete('/profile',userAuth, UserController.deleteUserProfile)
 
 
 export {usersRouter}

@@ -21,7 +21,7 @@ const findUrlByCode =  ( code: string) : Promise<{id: number, originalUrl: strin
 }
 
 const findUrlAnalytics = ( id: number ) => {
-    return prisma.urlAnalytics.findUnique({
+    return prisma.urlClickAnalysis.findUnique({
         where: {id}
     })
 }

@@ -1,11 +1,9 @@
 import type { Request, Response }  from "express"
 import { UrlService } from "../services";
 
-interface ShortenUrlBody {
-  originalUrl: string;
-}
 
-const shortenUrl = async (req: Request<{}, {}, ShortenUrlBody>, res: Response) => {
+
+const shortenUrl = async (req: Request, res: Response) => {
     try{
         const originalUrl = req.body.originalUrl
         
@@ -13,7 +11,7 @@ const shortenUrl = async (req: Request<{}, {}, ShortenUrlBody>, res: Response) =
             return  res.status(400).json({ message: "original url is required" })
         }
         
-        const shortUrl = await UrlService.generateShortUrl({originalUrl, userId: (req.user!).id});
+        const shortUrl = await UrlService.generateShortUrl({originalUrl, userId: (req.user)!.id});
 
         return res.status(201).json({
             shortUrl: shortUrl.code
@@ -28,7 +26,7 @@ const shortenUrl = async (req: Request<{}, {}, ShortenUrlBody>, res: Response) =
 const redirectUrl = async (req: Request, res: Response) => {
     try{
         
-        if ( !req.params.code || req.params.code!.length === 6) {
+        if ( !req.params.code || req.params.code.length !== 6) {
             return res.status(400).json({message: "Invalid short Url"})
         }
 

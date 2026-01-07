@@ -7,7 +7,7 @@ import { config } from "../config/config"
 const userAuth = async (req: Request, res: Response, next: NextFunction) => {
     try{
         let  authHeader = req.headers['authorization']
-        
+        console.log(authHeader)
         if ( !authHeader ) {
             return res.status(401).json({message: "No token provided"})
         }
@@ -32,3 +32,5 @@ const userAuth = async (req: Request, res: Response, next: NextFunction) => {
         return res.sendStatus(401)
     }
 }
+
+export {userAuth}

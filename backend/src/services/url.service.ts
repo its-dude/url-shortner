@@ -24,8 +24,9 @@ const resolveShortCode = async ( code: string ) => {
     return url.originalUrl
 }
 
-const getUserUrls =  ( userId: number ) => {
-    return UrlRepository.findUrlsByUserId( userId )
+const getUserUrls = async ( userId: number ) => {
+    const urls = await UrlRepository.findUrlsByUserId( userId )
+    return urls
 }
 
 const getAnalytics = async ( code: string ) => {

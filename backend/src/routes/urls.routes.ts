@@ -1,15 +1,14 @@
 import express from "express"
 import { UrlController } from "../controllers"
+import { userAuth } from "../middlewares/auth.middleware"
 
 const urlsRouter = express.Router()
 
-urlsRouter.post('/shorten', UrlController.shortenUrl)
+urlsRouter.post('/shorten',userAuth ,UrlController.shortenUrl)
 
-urlsRouter.get('/:code', UrlController.redirectUrl)
+urlsRouter.delete('/:code',userAuth ,UrlController.removeUrl)
 
-urlsRouter.delete('/:code', UrlController.removeUrl)
-
-urlsRouter.get('/:code/analytics', UrlController.getUrlAnalytics)
+urlsRouter.get('/:code/analytics',userAuth ,UrlController.getUrlAnalytics)
 
 
 export {urlsRouter}

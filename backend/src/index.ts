@@ -2,6 +2,9 @@ import express from "express";
 import { authRouter } from "./routes/auth.routes";
 import { usersRouter } from "./routes/users.routes";
 import { urlsRouter } from "./routes/urls.routes";
+import { prisma } from "./lib/prisma";
+import { config } from "./config/config";
+import { UrlController } from "./controllers";
 
 const app = express();
 
@@ -18,6 +21,22 @@ app.get('/health', (_, res)=> {
     })
 })
 
-app.listen(3000, ()=>{
-    console.log("server is running on port 3000");
-})
+app.get('/:code',UrlController.redirectUrl)
+
+async function startServer() {
+    try {
+        await prisma.$connect()
+
+        console.log("DB connected successfully")
+
+        app.listen(config.port, () => {
+            console.log(`Server is running on ${config.port}`)
+        })
+
+    } catch (err: any) {
+        console.log("DB connection failed, shutting down...")
+        process.exit(1)
+    }
+}
+
+startServer()
