@@ -29,16 +29,6 @@ const getUserUrls = async ( userId: number ) => {
     return urls
 }
 
-const getAnalytics = async ( code: string ) => {
-    const url = await UrlRepository.findUrlByCode( code )
-
-    if ( !url ) {
-       throw new Error("Url doesn't exist")
-    }
-
-    return UrlRepository.findUrlAnalytics( url.id )
-}
-
 const deleteUrl = async ( code: string ) => {
   try {
     return await UrlRepository.deleteUrlByCode( code );
@@ -47,5 +37,5 @@ const deleteUrl = async ( code: string ) => {
   }
     
 }
-export {generateShortUrl, resolveShortCode, getUserUrls, getAnalytics, deleteUrl}
+export {generateShortUrl, resolveShortCode, getUserUrls, deleteUrl}
  

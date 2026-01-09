@@ -4,6 +4,10 @@ declare global {
   namespace Express {
     interface Request {
       user: User;
+      clientIp?: string;
+      geo?: {
+        countryCode?: string
+      }
     }
   }
 }

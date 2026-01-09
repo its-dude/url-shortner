@@ -22,7 +22,7 @@ const signin= async (req: Request, res: Response) => {
         })
 
     }catch (err: any) {
-        res.status(400).json({message: err.message})
+        res.status(400).json({message: "Try again"})
     }
 } 
 

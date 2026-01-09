@@ -20,12 +20,6 @@ const findUrlByCode =  ( code: string) : Promise<{id: number, originalUrl: strin
     })
 }
 
-const findUrlAnalytics = ( id: number ) => {
-    return prisma.urlClickAnalysis.findUnique({
-        where: {id}
-    })
-}
-
 const findUrlsByUserId =  ( userId: number) => {
     return prisma.url.findMany({
         where: {userId},
@@ -42,5 +36,5 @@ const deleteUrlByCode =  ( code: string ) => {
         where: {code}
     })
 }
-export {createUrl, findUrlByCode, findUrlsByUserId, findUrlAnalytics, deleteUrlByCode}
+export {createUrl, findUrlByCode, findUrlsByUserId, deleteUrlByCode}
 

@@ -6,9 +6,10 @@ const urlsRouter = express.Router()
 
 urlsRouter.post('/shorten',userAuth ,UrlController.shortenUrl)
 
+urlsRouter.get('/:code/analytics',userAuth ,UrlController.getUrlAnalytics)
+
 urlsRouter.delete('/:code',userAuth ,UrlController.removeUrl)
 
-urlsRouter.get('/:code/analytics',userAuth ,UrlController.getUrlAnalytics)
 
 
 export {urlsRouter}
