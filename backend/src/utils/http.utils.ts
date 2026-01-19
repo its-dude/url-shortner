@@ -8,5 +8,5 @@ export function getClientIp (req: Request): string {
         return ip? ip.trim() : "unknown"
     }
 
-    return req.socket.remoteAddress || 'unknown'
+    return req.socket.remoteAddress || req.ip || 'unknown'
 }

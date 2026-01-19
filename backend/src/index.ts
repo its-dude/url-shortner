@@ -6,8 +6,19 @@ import { prisma } from "./lib/prisma";
 import { config } from "./config/config";
 import { UrlController } from "./controllers";
 import { geoMiddleware, initGeoIP } from "./middlewares/geoIp.middleware";
+import { rateLimit } from "./middlewares/rate-limit.middleware";
+import { getRedisClient } from "./lib/redis";
+
+try {
+  getRedisClient();
+} catch (error) {
+  console.error("Failed to initialize Redis:", error);
+  process.exit(1);
+}
 
 const app = express();
+
+app.use(rateLimit)
 
 app.get('/ping', (_, res) => {
     res.status(200).send('pong')
@@ -36,7 +47,7 @@ async function startServer() {
         const server = app.listen(config.port, () => {
             console.log(`Server is running on ${config.port}`)
         })
-        
+
         server.timeout = 30000      // 30 second timeout
         server.keepAliveTimeout = 61000  // Keep connections alive
 
