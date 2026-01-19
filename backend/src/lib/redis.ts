@@ -3,7 +3,7 @@ import { config } from "../config/config"
 
 let redisClient: RedisClientType | null = null
 
-export function getRedisClient(): RedisClientType {
+function getRedisClient(): RedisClientType {
     if (!redisClient){
         redisClient = createClient({url: config.redisUrl})
 
@@ -23,9 +23,11 @@ export function getRedisClient(): RedisClientType {
     return redisClient
 }
 
-export async function diconnectRedis(): Promise<void>{
+async function diconnectRedis(): Promise<void>{
     if (redisClient && redisClient.isOpen) {
         await redisClient.quit();
         redisClient = null;
     }
 }
+
+export {diconnectRedis, getRedisClient}
