@@ -9,6 +9,14 @@ import { geoMiddleware, initGeoIP } from "./middlewares/geoIp.middleware";
 
 const app = express();
 
+app.get('/ping', (_, res) => {
+    res.status(200).send('pong')
+})
+app.get('/health', (_, res)=> {
+    res.status(200).json({
+        "message": "Health is fine."
+    })
+})
 
 
 app.use(express.json())
@@ -16,25 +24,21 @@ app.use('/auth',authRouter)
 app.use('/users', usersRouter)
 app.use('/urls', urlsRouter)
 
-app.get('/health', (_, res)=> {
-    res.json({
-        "message": "Health is fine."
-    })
-})
-
 app.get('/:code', geoMiddleware, UrlController.redirectUrl)
 
 async function startServer() {
     try {
         await prisma.$connect()
-
         console.log("DB connected successfully")
 
         await initGeoIP()
 
-        app.listen(config.port, () => {
+        const server = app.listen(config.port, () => {
             console.log(`Server is running on ${config.port}`)
         })
+        
+        server.timeout = 30000      // 30 second timeout
+        server.keepAliveTimeout = 61000  // Keep connections alive
 
     } catch (err: any) {
         console.log("shutting down... :")
