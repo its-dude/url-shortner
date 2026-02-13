@@ -1,12 +1,7 @@
-import express from "express";
-import { authRouter } from "./routes/auth.routes";
-import { usersRouter } from "./routes/users.routes";
-import { urlsRouter } from "./routes/urls.routes";
+import { app } from "./app"
 import { prisma } from "./lib/prisma";
 import { config } from "./config/config";
-import { UrlController } from "./controllers";
-import { geoMiddleware, initGeoIP } from "./middlewares/geoIp.middleware";
-import { rateLimit } from "./middlewares/rate-limit.middleware";
+import {initGeoIP } from "./middlewares/geoIp.middleware";
 import { getRedisClient } from "./lib/redis";
 
 try {
@@ -16,27 +11,7 @@ try {
   process.exit(1);
 }
 
-const app = express();
-
-app.use(rateLimit)
-
-app.get('/ping', (_, res) => {
-    res.status(200).send('pong')
-})
-app.get('/health', (_, res)=> {
-    res.status(200).json({
-        "message": "Health is fine."
-    })
-})
-
-
-app.use(express.json())
-app.use('/auth',authRouter)
-app.use('/users', usersRouter)
-app.use('/urls', urlsRouter)
-
-app.get('/:code', geoMiddleware, UrlController.redirectUrl)
-
+let server:any;
 async function startServer() {
     try {
         await prisma.$connect()
@@ -44,7 +19,7 @@ async function startServer() {
 
         await initGeoIP()
 
-        const server = app.listen(config.port, () => {
+        server = app.listen(config.port, () => {
             console.log(`Server is running on ${config.port}`)
         })
 
